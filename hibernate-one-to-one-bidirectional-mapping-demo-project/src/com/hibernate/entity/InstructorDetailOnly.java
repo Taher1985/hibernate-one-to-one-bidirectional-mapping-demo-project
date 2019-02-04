@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "instructor_detail")
-public class InstructorDetail {
+public class InstructorDetailOnly {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,14 +24,15 @@ public class InstructorDetail {
 	@Column(name = "hobby")
 	private String hobby;
 
-	@OneToOne(mappedBy = "instructorDetail", cascade = { CascadeType.ALL })
-	private Instructor instructor;
+	@OneToOne(mappedBy = "instructorDetail", cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+			CascadeType.REFRESH })
+	private InstructorOnly instructor;
 
-	public InstructorDetail() {
+	public InstructorDetailOnly() {
 
 	}
 
-	public InstructorDetail(String youtubeChannel, String hobby) {
+	public InstructorDetailOnly(String youtubeChannel, String hobby) {
 		this.youtubeChannel = youtubeChannel;
 		this.hobby = hobby;
 	}
@@ -60,11 +61,11 @@ public class InstructorDetail {
 		this.hobby = hobby;
 	}
 
-	public Instructor getInstructor() {
+	public InstructorOnly getInstructor() {
 		return instructor;
 	}
 
-	public void setInstructor(Instructor instructor) {
+	public void setInstructor(InstructorOnly instructor) {
 		this.instructor = instructor;
 	}
 

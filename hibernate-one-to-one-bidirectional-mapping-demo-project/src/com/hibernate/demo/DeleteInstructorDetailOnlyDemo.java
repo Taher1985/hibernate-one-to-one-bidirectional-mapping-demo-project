@@ -6,22 +6,24 @@ import org.hibernate.cfg.Configuration;
 
 import com.hibernate.entity.Instructor;
 import com.hibernate.entity.InstructorDetail;
+import com.hibernate.entity.InstructorDetailOnly;
+import com.hibernate.entity.InstructorOnly;
 
-public class DeleteInstructorDetailDemo {
+public class DeleteInstructorDetailOnlyDemo {
 
 	public static void main(String[] args) {
 
 		// create session factory
-		SessionFactory factory = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Instructor.class)
-				.addAnnotatedClass(InstructorDetail.class).buildSessionFactory();
+		SessionFactory factory = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(InstructorOnly.class)
+				.addAnnotatedClass(InstructorDetailOnly.class).buildSessionFactory();
 		// create session
 		Session session = factory.getCurrentSession();
 		try {
 			// start a transaction
 			session.beginTransaction();
 			// get the instructor detail object
-			int id = 6;
-			InstructorDetail instructorDetail = session.get(InstructorDetail.class, id);
+			int id = 7;
+			InstructorDetailOnly instructorDetail = session.get(InstructorDetailOnly.class, id);
 			// print the instructor detail
 			System.out.println("tempInstructorDetail: " + instructorDetail);
 			// print the associated instructor
@@ -31,7 +33,7 @@ public class DeleteInstructorDetailDemo {
 
 			// remove the associated object reference
 			// break bi-directional link
-			//instructorDetail.getInstructor().setInstructorDetail(null);
+			instructorDetail.getInstructor().setInstructorDetail(null);
 			session.delete(instructorDetail);
 			// commit transaction
 			session.getTransaction().commit();
